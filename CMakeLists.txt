@@ -354,10 +354,8 @@ if(BUILD_TESTING)
     set(CHROME_TESTS OFF CACHE BOOL "Turn on Chrome selenium tests.")
     set(DATA_REPO_PATH "" CACHE PATH "Local path to the geojs data repository (optional).")
     set(SELENIUM_TEST_DIR "${GEOJS_DEPLOY_DIR}/test/selenium")
-    set(SELENIUM_HOST localhost CACHE STRING "The selenium test server host.")
+    set(SELENIUM_HOST None CACHE STRING "The remote selenium test server host or None to use local driver.")
     mark_as_advanced(SELENIUM_HOST)
-    set(SELENIUM_PORT 4444 CACHE STRING "The selenium test server port.")
-    mark_as_advanced(SELENIUM_PORT)
 
     configure_file(
       ${CMAKE_CURRENT_SOURCE_DIR}/testing/js/selenium-blanket.js

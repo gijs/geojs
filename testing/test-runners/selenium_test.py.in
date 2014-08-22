@@ -36,7 +36,6 @@ from midas_handler import MidasHandler
 TEST_HOST = "@TESTING_HOST@"
 TEST_PORT = @TESTING_PORT@
 SELENIUM_HOST = "@SELENIUM_HOST@"
-SELENIUM_PORT = @SELENIUM_PORT@
 DEPLOY_PATH = "@GEOJS_DEPLOY_DIR@"
 BUILD_PATH = "@CMAKE_CURRENT_BINARY_DIR@"
 SOURCE_PATH = "@CMAKE_CURRENT_SOURCE_DIR@"
@@ -170,9 +169,6 @@ class BaseTest(TestCase):
     # unused at the moment
     seleniumHost = SELENIUM_HOST
 
-    # unused at the moment
-    seleniumPort = SELENIUM_PORT
-
     #: The absolute path to the webserver root.
     deploy_path = DEPLOY_PATH
 
@@ -259,7 +255,15 @@ class BaseTest(TestCase):
         '''
         Start up a selenium driver.
         '''
-        self.driver = drivers[self.driverName]()
+        if self.seleniumHost is "None":
+            self.driver = drivers[self.driverName]()
+        else:
+            self.driver = webdriver.Remote(
+                command_executor=self.seleniumHost,
+                desired_capabilities=webdriver.DesiredCapabilities.__dict__[
+                    self.driverName.upper()
+                ]
+            )
 
     def tearDown(self):
         '''
